@@ -6,7 +6,7 @@ void rotateMatrix(vector<vector<int>> &mat, int n, int m)
     int startRow = 0 , startCol = 0 ;
     int endRow = n-1 , endCol = m-1;
     int prev , curr ;
-    while(startRow<=endRow and startCol<=endCol){
+    while(startRow< endRow and startCol<endCol){
         if(startRow + 1 == n || startCol + 1 == m ){
             return ;
         }
@@ -32,16 +32,15 @@ void rotateMatrix(vector<vector<int>> &mat, int n, int m)
             }
             endRow--;
         }
-        
         if(startCol<=endCol){
             for(int i = endRow ; i>=startRow ; i--){
                  curr = mat[i][startCol];
             mat[i][startCol] = prev;
             prev = curr;
-            } 
+            }
             startCol++;
+            
         }
-                    
         
         
     }
