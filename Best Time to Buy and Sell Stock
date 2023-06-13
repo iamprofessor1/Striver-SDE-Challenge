@@ -1,0 +1,12 @@
+#include <bits/stdc++.h> 
+int maximumProfit(vector<int> &v){
+    // Write your code here.
+    int ans = 0 ;
+    int low = v[0];
+    int high = v[0];
+    for(int i = 1 ; i<v.size() ;i++){
+        low = min(low,v[i]);
+        ans = max(ans , v[i] - low);
+    }
+    return ans;
+}
