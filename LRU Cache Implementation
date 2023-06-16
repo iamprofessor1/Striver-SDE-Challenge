@@ -1,0 +1,81 @@
+#include<bits/stdc++.h>
+
+class LRUCache
+{  
+public:
+ 
+    struct Node{
+        int key,value;
+        Node * prev ,*next;
+        Node(int k,int v){
+            prev = next = NULL;
+            key = k;
+            value = v;
+        }
+    };
+    
+    int cap;
+    unordered_map<int,Node * >m;
+    
+    Node * head = new Node(-1,-1);
+    Node * tail = new Node(-1,-1);
+    
+
+    LRUCache(int capacity)
+    {
+        // Write your code here
+        
+        cap = capacity;
+        head->next = tail;
+        tail->prev = head;
+        
+    }
+
+    
+    void addNode(Node * newnode){
+        Node *  temp = head->next;
+        newnode->next = temp;
+        newnode->prev = head;
+        head->next = newnode;
+        temp->prev = newnode;
+    }
+    
+    void deleteNode(Node * delnode){
+        Node* delprev = delnode->prev;
+        Node * delnext = delnode->next;
+        delprev->next = delnext;
+        delnext->prev = delprev;
+    }
+    
+    int get(int key)
+    {
+        // Write your code here
+        
+        if(m.find(key)!=m.end()){
+            Node * resNode = m[key];
+            int res = resNode->value;
+            deleteNode(resNode);
+            m.erase(key);
+            addNode(new Node(key,res));
+            m[key] = head->next;
+            return res;
+        }
+        return -1;
+    }
+
+    void put(int key, int value)
+    {
+        // Write your code here
+        if(m.find(key)!=m.end()){
+            Node * existingNode = m[key];
+            m.erase(key);
+            deleteNode(existingNode);
+        }
+        if(m.size() == cap){
+            m.erase(tail->prev->key);
+            deleteNode(tail->prev);
+        }
+        addNode(new Node (key,value));
+        m[key] = head->next;
+    }
+};
