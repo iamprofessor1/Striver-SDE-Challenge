@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+
+/************************************************************
+   
+   Following is the TreeNode class structure
+   
+   class TreeNode<T>
+   { 
+   public:
+        T data; 
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+   
+        TreeNode(T data) 
+  		{ 
+            this -> data = data; 
+            left = NULL; 
+            right = NULL; 
+        }
+   };
+   
+   
+ ************************************************************/
+
+TreeNode<int>* cTree(vector<int>& postorder, vector<int>& inorder , int &index , int is,int ie, unordered_map<int,int>&ump){
+    if(is>ie){
+        return NULL;
+    }
+    int value = postorder[index--];
+   TreeNode<int>* root = new TreeNode<int>(value);
+    
+   int index_in_inorder = ump[value];
+    
+    root->right = cTree(postorder,inorder,index,index_in_inorder+1 , ie , ump);
+    root->left = cTree(postorder,inorder,index,is,index_in_inorder-1  , ump);
+    
+    return root;
+    
+}
+
+
+TreeNode<int>* getTreeFromPostorderAndInorder(vector<int>& postorder, vector<int>& inorder) 
+{
+	// Write your code here.
+     unordered_map<int,int>ump;
+    for(int i = 0 ; i<inorder.size();i++){
+        ump[inorder[i]] = i;
+    }
+    int n = postorder.size() ;
+    int index = n - 1;
+    TreeNode<int>* root = cTree(postorder,inorder, index , 0,n-1,ump );
+    
+    return root;
+}
