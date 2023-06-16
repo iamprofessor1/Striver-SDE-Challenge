@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+vector<int> kthSmallLarge(vector<int> &arr, int n, int k)
+{
+	// Write your code here.
+    priority_queue<int,vector<int>,greater<int>>kthgreater; //minheap
+    priority_queue<int>kthsmallest; // maxheap;
+    for(int i = 0 ; i<n;i++){
+        if(i<k){
+         if(kthgreater.size()<k){
+        kthgreater.push(arr[i]);
+         }
+         if(kthsmallest.size()<k){
+        kthsmallest.push(arr[i]);
+         }
+        }
+        else{
+        if(kthgreater.top()<arr[i]){
+            kthgreater.pop();
+            kthgreater.push(arr[i]);
+        }
+        if( kthsmallest.top()>arr[i]){
+             kthsmallest.pop();
+             kthsmallest.push(arr[i]);
+        }}
+
+    }
+    return {kthsmallest.top(),kthgreater.top()};
+    
+}
