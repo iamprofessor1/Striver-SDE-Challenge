@@ -1,0 +1,19 @@
+
+void  solution(vector<int> & num ,vector<int>&ans , int index =0, int  sum =0){
+    if(index == num.size()){
+        ans.push_back(sum);
+        return ;
+    }
+    solution(num,ans,index+1,sum);
+    solution(num,ans,index+1,sum+num[index]);
+}
+
+vector<int> subsetSum(vector<int> &num)
+{
+    // Write your code here.
+    vector<int>ans;
+    int sum = 0;
+    solution(num,ans);
+    sort(ans.begin(),ans.end());
+    return ans;
+}
