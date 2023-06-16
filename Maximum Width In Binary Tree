@@ -1,0 +1,19 @@
+#include<bits/stdc++.h>
+void solve(TreeNode<int> *root,map<int,int> &mp,int level){
+       if(root == NULL)
+           return;
+     mp[level]++; 
+     
+            solve(root->right,mp,level+1);   
+                solve(root->left,mp,level+1);       
+ }
+int getMaxWidth(TreeNode<int> *root){
+        map<int,int> mp;  
+     solve(root,mp,1);
+   int ans = 0;
+   for(auto it:mp){
+       int a = it.second;
+       ans = max(ans,a);
+   }
+   return ans;
+}
