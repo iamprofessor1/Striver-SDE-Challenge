@@ -1,0 +1,21 @@
+#include <bits/stdc++.h> 
+long getTrappedWater(long *a, int n){
+    // Write your code here.
+    long lmax = 0 ,rmax = 0;
+    long i = 0 , j =  n -1;
+    long ans = 0 ;
+    while(i<j){
+        lmax = max(a[i],lmax);
+        rmax = max(a[j],rmax);
+        if(lmax<rmax){
+//             then take it 
+            ans += (lmax - a[i]);
+            i++;
+        }
+        else{
+            ans += (rmax - a[j]);
+            j--;
+        }
+    }
+    return ans;
+}
