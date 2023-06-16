@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+void findMedian(int *arr, int n)
+{
+     if(n==0)
+        return;
+    // Write your code here
+//     max_headp
+//     min_heap
+    priority_queue<int,vector<int>,greater<int>>pq2;//min heap;  //for smaller
+    priority_queue<int>pq1;//min heap; // for greater
+    pq1.push(arr[0]);
+    cout<<arr[0]<<" ";
+    for(int i = 1 ;i<n;i++){
+        int x =arr[i];
+        if(pq1.size() == pq2.size()){
+//             we have to increase the size of pq1;
+            if(pq1.top()>=x){
+                pq1.push(x);
+            }
+            else{
+                pq2.push(x); // order important
+                pq1.push(pq2.top());
+                pq2.pop();
+                
+            }
+            cout<<pq1.top()<<" ";
+        }
+        else{
+            if(pq1.top()<=x){
+                pq2.push(x);
+            }
+            else{
+                pq2.push(pq1.top());
+                pq1.pop();
+                pq1.push(x);
+            }
+            cout<<(((int)pq1.top()+pq2.top())/2LL)<<" ";
+        }
+    }
+    
+}
