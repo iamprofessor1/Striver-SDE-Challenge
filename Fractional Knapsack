@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// Time Complexity - O(n Log n );
+// space complexity ->(O(1)) can be 
+
+struct myDS
+{
+    int value;
+    int weight;
+    myDS(int v, int wt)
+    {
+        value = v;
+        weight = wt;
+    }
+};
+
+bool mycmp(const myDS &d1, const myDS &d2)
+{
+    // sort on the basis of value / wt;
+    // whose value is more we tend to pick first
+    return d1.value * d2.weight > d2.value * d1.weight;
+}
+
+double maximumValue(vector<pair<int, int>> &items, int n, int w)
+{
+    vector<myDS> v;
+    for (int i = 0; i < items.size(); i++)
+    {
+        int wt = items[i].first;
+        int value = items[i].second;
+
+        v.push_back({value, wt});
+    }
+    sort(v.begin(), v.end(), mycmp);
+    int given_wt = w;
+    double value = 0;
+    for (int i = 0; i < n; i++)
+    {
+        int curr_wt = v[i].weight;
+        int curr_value = v[i].value;
+        // we can take compleet items ;
+        if (curr_wt <= given_wt)
+        {
+            given_wt -= curr_wt;
+            value += curr_value;
+        }
+        // we can take part of the items;
+        else
+        {
+            // we can take the part of it
+            value += given_wt * ((curr_value * 1.0) / curr_wt);
+            break;
+        }
+    }
+    cout<<setprecision(2)<<fixed; // for fixing
+    return value;
+}
+
