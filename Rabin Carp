@@ -1,0 +1,13 @@
+vector<int> stringMatch(string &s, string &pat) {
+    // Write your code here
+    vector<int>ans;
+    int start = 0;
+    while(true){
+        if(s.find(pat,start) == string::npos){
+            return ans;
+        }
+        int x = s.find(pat,start);
+        ans.push_back(x);
+        start =x+1;
+    }
+}
