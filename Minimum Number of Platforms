@@ -1,0 +1,27 @@
+#include<bits/stdc++.h>
+
+struct Intervals{
+  int start;
+ 
+};
+
+int calculateMinPatforms(int a[], int b[], int n) {
+    // Write your code here.
+    sort(a,a+n);
+    sort(b,b+n);
+    int count = 0;
+    int res =0;
+    int i = 0 , j =0;
+    while(i<n){
+        if(a[i]<=b[j]){
+            count++;
+            i++;
+        }
+        else{
+            count--;
+            j++;
+        }
+        res = max(res, count);
+    }
+    return res;
+}
