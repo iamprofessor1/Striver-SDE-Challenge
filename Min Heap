@@ -1,0 +1,82 @@
+
+struct heap{
+  vector<int>arr;
+  
+  int left(int i){
+      return 2*i+1;
+  }
+  int right(int i){
+      return 2*i +2;
+  }
+  int parent(int i){
+      return (i-1)/2;
+  }
+  void insert(int x){
+      arr.push_back(x);
+      int i = arr.size()-1;
+      while(i>=0 and arr[i]< arr[parent(i)]){
+       swap(arr[i],arr[parent(i)]);
+          i = parent(i);
+      }
+  }
+  int getMin(){
+      return arr[0];
+  }
+    
+ void minHeapify(int i){
+     while(true){
+         int smallest = i;
+         int left_idx = left(i);
+         int right_idx = right(i);
+         if(left_idx<arr.size() and arr[left_idx] < arr[smallest]){
+             smallest = left_idx;
+         }
+         if(right_idx<arr.size() and arr[right_idx] <arr[smallest]){
+             smallest = right_idx;
+         }
+         if(smallest == i){
+             return ;
+         }else{
+             swap(arr[smallest],arr[i]);
+             i = smallest;
+         }
+     }
+ }
+  int extractMin(){
+      if(arr.size()==0){
+         return -1;
+      }
+      else if(arr.size() ==1){
+          int res = *arr.begin();
+          arr.pop_back();
+          return res;
+      }
+      else{
+          int res = arr[0];
+          int n = arr.size()-1;
+          swap(arr[0],arr[n]);
+          arr.pop_back();
+          minHeapify(0);
+          return res;
+      }
+
+  }
+ 
+    
+};
+
+vector<int> minHeap(int n, vector<vector<int>>& q) {
+    // Write your code here.
+    heap h;
+    vector<int>ans;
+    for(int i = 0 ;i<q.size();i++){
+            if(q[i][0]==1){
+               ans.push_back(h.extractMin());
+            }
+        else{
+            h.insert(q[i][1]);
+        }
+   
+    }
+    return ans;
+}
