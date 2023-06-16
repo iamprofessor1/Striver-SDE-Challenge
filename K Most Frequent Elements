@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+struct mydata{
+  int val;
+    int freq;
+    mydata(int v, int f){
+        val = v;
+        freq =f;
+    }
+};
+
+struct cmp{
+    bool operator()(mydata & t1 , mydata & t2){
+        return t1.freq < t2.freq; //maxheap
+    }
+};
+
+vector<int> KMostFrequent(int n, int k, vector<int> &arr)
+{
+    // Write your code here.
+    unordered_map<int,int>mp;
+    for(int i=0;i<n;i++){
+        mp[arr[i]]++;
+    }
+    priority_queue<mydata,vector<mydata>,cmp>pq;
+    for(auto x : mp){
+        pq.push({x.first,x.second});
+    }
+    vector<int>ans;
+    while(k-- && pq.empty()==false){
+        ans.push_back(pq.top().val);
+        pq.pop();
+    }
+    sort(ans.begin(),ans.end());
+    return ans;
+    
+}
