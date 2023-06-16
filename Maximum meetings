@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+
+struct meeting{
+    int start;
+    int end;
+    int pos;
+    meeting(int s , int e,int p){
+        start =s;
+        end = e;
+        pos = p;
+    }
+};
+
+bool myCmp(meeting & m1 , meeting & m2){
+    if(m1.end!=m2.end){
+        return m1.end<m2.end;
+    }
+    return m1.pos <m2.pos;
+}
+
+
+vector<int> maximumMeetings(vector<int> &start, vector<int> &end) {
+    // Write your code here.
+    vector<meeting>m;
+    for(int i = 0 ; i<start.size() ;i++){
+        m.push_back({start[i],end[i],i+1});
+    }
+    sort(m.begin(),m.end(),myCmp);
+    vector<int>ans;
+    ans.push_back(m[0].pos);
+    int limit = m[0].end;
+    for(int i = 1 ; i<start.size() ;i++){
+        if(m[i].start > limit){
+            limit = m[i].end;
+            ans.push_back(m[i].pos);
+        }
+    }
+    return ans;
+    
+}
