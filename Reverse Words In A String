@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+
+const std::string WHITESPACE = " \n\r\t\f\v";
+ 
+std::string trim(const std::string &s)
+{
+    size_t start = s.find_first_not_of(WHITESPACE);
+    return (start == std::string::npos) ? "" : s.substr(start);
+}
+ 
+
+string reverseString(string s)
+{
+    // Write your code here.
+    int start = 0 ;
+    int end = 0;
+    string ans ;
+    for(int i = 0 ; i<s.size();){
+        while(i<s.size() and s[i] == ' '){
+            i++;
+        }
+        start = i;
+        while(i<s.size() and s[i] != ' '){
+            i++;
+        }
+        end = i;
+//         ans.push_back(s.substr(start,end-start));
+        string t =s.substr(start,end-start);
+        reverse(t.begin(),t.end());
+       ans+=t;
+        ans+=' ';
+    }
+    reverse(ans.begin(),ans.end());
+    ans = trim(ans);
+    return ans;
+}
