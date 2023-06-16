@@ -1,0 +1,43 @@
+//  FFFFFFTTTTTTT
+
+
+bool check(vector<int>& arr , int n , long long target){
+   long long int count = 1;
+    long long int sum = 0;
+    for(int i = 0 ;i<arr.size();i++){
+        if(sum+arr[i]*1LL > target){
+            count++;
+            sum = arr[i];
+        }
+        else{
+            sum += arr[i];
+        }
+    }
+
+    return count<=n;
+}
+
+long long ayushGivesNinjatest(int n, int m, vector<int> time) 
+{	
+	// Write your code here.
+    long long low = time[0];
+    long long high =  0;
+    for(int i = 0 ; i<time.size();i++){
+         low = max(low*1LL,time[i]*1LL);
+         high += time[i]*1LL;
+    }
+    long long ans = low;
+    if(n==1)return high;
+    if(n==m)return low;
+    while(low<=high){
+        long long mid = (low) +(high - low)/2;
+        if(check(time,n,mid)){
+            ans = mid;
+            high = mid-1;
+        }
+        else{
+            low = mid+1;
+        }
+    }
+    return ans;
+}
