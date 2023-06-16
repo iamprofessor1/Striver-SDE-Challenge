@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+/*************************************************************
+
+    Following is the Binary Tree node structure
+
+    class BinaryTreeNode
+    {
+    public :
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+*************************************************************/
+
+vector<int> zigZagTraversal(BinaryTreeNode<int> *root)
+{
+    // Write your code here!
+    if(root == NULL){
+        return {};
+    }
+    stack<BinaryTreeNode<int> *>s1,s2;
+    s1.push(root);
+    vector<int>ans;
+    while(s1.empty() == false || s2.empty() == false){
+           while(s1.empty() == false){
+               BinaryTreeNode<int> * curr =  s1.top();
+               s1.pop();
+                ans.push_back(curr->data);
+               if(curr->left != NULL){
+                   s2.push(curr->left);
+               }
+               if(curr->right != NULL){
+                   s2.push(curr->right);
+               }
+           }
+        while(s2.empty() == false){
+             BinaryTreeNode<int> * curr =  s2.top();
+            s2.pop();
+                ans.push_back(curr->data);
+              if(curr->right != NULL){
+                   s1.push(curr->right);
+               }
+               if(curr->left !=NULL){
+                   s1.push(curr->left);
+               }
+               
+        }
+    }
+    
+    return ans;
+}
