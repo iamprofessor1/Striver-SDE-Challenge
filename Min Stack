@@ -1,0 +1,80 @@
+// Implement class for minStack.
+class minStack
+{
+	// Write your code here.
+    stack<int>s;
+	int mini ;
+	public:
+		
+		// Constructor
+		minStack() 
+		{ 
+			// Write your code here.
+            mini = 0;
+     
+		}
+		
+		// Function to add another element equal to num at the top of stack.
+		void push(int num)
+		{
+			// Write your code here.
+            if(s.empty() == true){
+                mini = num;
+                s.push(num);
+            }
+            else if(num<=mini){
+                s.push(num-mini);
+                mini = num;
+            }
+            else{
+                s.push(num);
+            }
+		}
+		
+		// Function to remove the top element of the stack.
+		int pop()
+		{
+            if(s.empty() == true){
+                return -1;
+            }
+			// Write your code here.
+            if(s.top() <= 0){
+                int res = mini;
+                mini = mini- s.top();
+                s.pop();
+                return res;
+            }
+            else{
+               int res  = s.top();
+                s.pop();
+                return res;
+            }
+		}
+		
+		// Function to return the top element of stack if it is present. Otherwise return -1.
+		int top()
+		{
+			// Write your code here.
+            if(s.empty() == true){
+                return -1;
+            }
+            int x  = s.top();
+            if(x<=0){
+                return mini;
+            }
+            else{
+                return x;
+            }
+            
+		}
+		
+		// Function to return minimum element of stack if it is present. Otherwise return -1.
+		int getMin()
+		{
+			// Write your code here.
+            if(s.empty()){
+                return -1;
+            }
+            return mini;
+		}
+};
