@@ -1,0 +1,27 @@
+bool check(char a , char b){
+    return (a=='{' and b =='}') or (a=='[' and b ==']')  or (a=='(' and b ==')' );
+}
+
+bool isValidParenthesis(string &exp)
+{
+    // Write your code here.
+    stack<char>s;
+    for(int i = 0 ; i<exp.size() ;i++){
+        char c = exp[i];
+        if(c=='[' || c=='{' || c == '('){
+            s.push(c);
+        }
+        else{
+            if(s.empty()){
+                return false;
+            }
+            else if(check(s.top(),c)==false){
+                return false;
+            }
+            else{
+                s.pop();
+            }
+        }
+    }
+    return s.empty();
+}
