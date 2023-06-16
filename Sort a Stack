@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+
+void insert_at_correct_position(stack<int>& s , int x){
+    if(s.empty() or s.top()<= x){
+        s.push(x);
+    }
+    else{
+        int a = s.top();
+        s.pop();
+        insert_at_correct_position(s,x);
+        s.push(a);
+    }
+}
+
+
+void reverse(stack<int> & s){
+    if(s.size() >0 ){
+        int x = s.top();
+        s.pop();
+        reverse(s);
+        insert_at_correct_position(s,x);
+    }
+}
+
+void sortStack(stack<int> &s)
+{
+	// Write your code here
+    reverse(s);
+}
