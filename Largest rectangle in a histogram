@@ -1,0 +1,26 @@
+#include<bits/stdc++.h> 
+
+int largestRectangle(vector < int > & h) {
+   // Write your code here.
+     stack<int>s; // storing index;
+//      using smallest element left side 
+//      using greatets element right side
+     int max_area = 0;
+     for(int i = 0 ; i<h.size() ;i++){
+         while(s.empty() == false and h[s.top()]>= h[i] ){
+             int x = s.top();
+             s.pop();
+             int area = h[x] * (s.empty() == true ?  i : i -1 -s.top());
+             max_area = max(max_area , area);
+         }
+         s.push(i);
+     }
+     while(s.empty() == false){
+         int x = s.top();
+         s.pop();
+         int area = h[x] *(s.empty() == true ? h.size(): h.size() - 1 - s.top());
+         max_area = max(area , max_area);
+     }
+     return max_area;
+     
+ }
