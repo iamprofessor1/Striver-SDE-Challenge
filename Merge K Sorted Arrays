@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+
+struct datatype{
+    int val;
+    int arr;
+    int pos;
+    datatype(int v, int a, int p){
+        val = v;
+        pos =p;
+        arr =a;
+    }
+    
+};
+
+struct cmp{
+  bool operator()(datatype & d1 , datatype & d2){
+      return d1.val>d2.val;
+  }
+    
+};
+
+
+vector<int> mergeKSortedArrays(vector<vector<int>>array, int k)
+{
+    // Write your code here. 
+    priority_queue<datatype, vector<datatype>,cmp>pq; //minheap
+    for(int i = 0 ;i<k ;i++){
+        pq.push({array[i][0],i,0});
+    }
+    vector<int>ans;
+    while(!pq.empty()){
+        auto d = pq.top();
+        pq.pop();
+        int val = d.val;
+        int arr = d.arr;
+        int pos = d.pos;
+        ans.push_back(val);
+        if(pos+1!= array[arr].size()){
+            pq.push({array[arr][pos+1],arr,pos+1});
+        }
+    }
+    return ans;
+}
