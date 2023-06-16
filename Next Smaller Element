@@ -1,0 +1,21 @@
+#include<bits/stdc++.h>
+vector<int> nextSmallerElement(vector<int> &arr, int n)
+{
+    
+
+    vector<int>ans;
+    stack<int>s; // storing the index 
+//     try to maintain smallest to smaller
+    for(int i = n-1 ; i>=0 ;i--){
+        while(s.empty()==false and arr[s.top()] >= arr[i]){
+            s.pop();
+        }
+        int greater = s.empty()? -1 : arr[s.top()];
+        ans.push_back(greater);
+        s.push(i);
+    }
+    reverse(ans.begin(),ans.end());
+    
+    return ans;
+
+}
