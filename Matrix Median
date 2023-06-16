@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+
+int getMedian(vector<vector<int>> &mat)
+{
+   int n = mat.size();
+   int m = mat[0].size();
+   int medPos = (n*m+1)/2;
+//    find the range of ans 
+    int low = mat[0][0];
+    int high = mat[0][m-1];
+    for(int i = 1 ; i<n ;i++){
+        low = min(low,mat[i][0]);
+        high = max(high,mat[i][m-1]);
+    }
+    while(low<=high){
+        int mid = low+(high - low)/2;
+        
+        int count_less_than_or_equal_to_mid = 0;
+        for(int i = 0 ; i<n ;i++){
+            count_less_than_or_equal_to_mid += upper_bound(mat[i].begin(),mat[i].end(),mid) - mat[i].begin();
+        }
+        if(count_less_than_or_equal_to_mid < medPos){
+            low = mid+1;
+        }
+        else{
+            high = mid-1;
+        }
+    }
+    
+    
+    return low;
+}
