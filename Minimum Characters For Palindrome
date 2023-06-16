@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+
+void fill_lps(string s,vector<int>&lps){
+    int n = s.size();
+    int i = 1;
+    lps[0] = 0;
+    int len = 0;
+    while(i<n){
+        if(s[i] == s[len]){
+            lps[i] = len+1;
+            len++;
+            i++;
+        }
+        else{
+            if(len == 0){
+                lps[i] = 0 ;
+                i++;
+            }
+            else{
+                len = lps[len-1];
+            }
+        }
+    }
+
+}
+
+
+int minCharsforPalindrome(string str) {
+	// Write your code here.
+    
+    string revStr = str;
+    reverse(revStr.begin(), revStr.end());
+ 
+    // Get concatenation of string, special character
+    // and reverse string
+    string concat = str + "$" + revStr;
+ 
+    //  Get LPS array of this concatenated string
+    vector<int> lps(concat.size(),0) ;
+    fill_lps(concat,lps);
+   return (str.length() - lps.back());
+	
+}
