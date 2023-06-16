@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct DSU
+{
+    vector<int> parent;
+    DSU(int n)
+    {
+        parent.resize(n + 1, -1);
+        for (int i = 0; i <= n; i++)
+        {
+            parent[i] = i;
+        }
+    }
+    int Find(int x)
+    {
+        if (parent[x] == x)
+        {
+            return x;
+        }
+        return parent[x] = Find(parent[x]);
+    }
+    void Union(int x, int y)
+    {
+        // simply make the second one is child of first
+        // empty slot is father
+        int parent_x = Find(x);
+        int parent_y = Find(y);
+        if (parent_x == parent_y)
+        {
+            return;
+        }
+        else
+        {
+            parent[parent_y] = parent_x;
+        }
+    }
+};
+
+bool mycmp(const vector<int> &t1, const vector<int> &t2)
+{
+    return t1[1] > t2[1];
+}
+
+// deadline and profit --> O(N2) ;
+int jobScheduling(vector<vector<int>> &jobs)
+{
+    sort(jobs.begin(), jobs.end(), mycmp); // on the basis of profit;
+    // try to complete the jobs at deadline
+    // and if deadline is already allocated
+    // then we search from small deadline
+    int max_deadline = jobs[0][0];
+    for (int i = 1; i < jobs.size(); i++)
+    {
+        max_deadline = max(max_deadline, jobs[i][0]);
+    }
+    DSU d(max_deadline);
+    int total_profit = 0;
+    for (int i = 0; i < jobs.size(); i++)
+    {
+        int profit = jobs[i][1];
+        int deadline = jobs[i][0];
+        int available_slot = d.Find(deadline); // it gives the parent as child
+
+        if (available_slot >= 1)
+        { 
+            d.Union((available_slot - 1), available_slot);  
+            total_profit += profit;
+        }
+    }
+    return total_profit;
+}
