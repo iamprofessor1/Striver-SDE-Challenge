@@ -1,0 +1,26 @@
+int compareVersions(string a, string b) 
+{
+    // Write your code here
+    int i = 0 , j = 0,  v1len = a.size() , v2len = b.size() ,n1,n2;
+    while(i<v1len || j<v2len){
+        long long n1 = 0 ;
+        long long n2 = 0;
+        while(i<v1len and a[i] !='.'){
+            n1 = n1*10 + 1LL*(a[i] -'0');
+            i++;
+        }
+        while(j<v2len and b[j] != '.'){
+            n2 = n2 * 10 + 1LL*(b[j] - '0');
+            j++;
+        }
+        if(n1<n2){
+            return -1;
+        }
+        else if(n1>n2){
+            return 1;
+        }
+        i++;
+        j++;
+    }
+    return 0;
+}
