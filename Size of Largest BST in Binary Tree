@@ -1,0 +1,70 @@
+#include <bits/stdc++.h> 
+/************************************************************
+
+    Following is the Binary Tree node structure
+    
+    template <typename T>
+    class TreeNode {
+        public :
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+
+        ~TreeNode() {
+            if(left)
+                delete left;
+            if(right)
+                delete right;
+        }
+    };
+
+************************************************************/
+
+struct myDS{
+      bool isBST;
+      int maxBSTsize;
+      int minimum;
+       int maximum;
+        myDS(bool isBST, int maxBSTsize, int minimum,int maximum){
+                this->isBST = isBST;
+                this->maxBSTsize = maxBSTsize;
+                this->minimum = minimum;
+                this->maximum = maximum;
+    }
+};
+
+bool isLeaf(TreeNode<int>*root){
+    return root->left==NULL and root->right == NULL;
+}
+
+myDS largest(TreeNode<int> * root){
+    if(root == NULL){
+        return {true,0,INT_MAX,INT_MIN};
+    }
+    if(isLeaf(root)){
+        return {true,1,root->data,root->data};
+    }
+   
+    myDS left = largest(root->left);
+    myDS right = largest(root->right);
+    if(left.isBST and right.isBST)
+    {if(left.maximum < root->data and root->data < right.minimum){
+       int x = left.minimum;
+       int y = right.maximum;
+       if(x==INT_MAX)x = root->data;
+        if(y == INT_MIN)y = root->data;
+        return {true,left.maxBSTsize+right.maxBSTsize+1,x,y};
+    }}
+    return {false,max(left.maxBSTsize,right.maxBSTsize),0,0};
+}
+
+int largestBST(TreeNode<int>* root) 
+{
+    return largest(root).maxBSTsize;
+}
