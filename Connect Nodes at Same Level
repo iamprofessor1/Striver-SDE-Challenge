@@ -1,0 +1,50 @@
+#include <bits/stdc++.h> 
+/*
+    ----------------- Binary Tree node class for reference -----------------
+
+    template <typename T>
+    class BinaryTreeNode {
+        public : 
+            T data;
+            BinaryTreeNode<T> *left;
+            BinaryTreeNode<T> *right;
+            BinaryTreeNode<T> *next;
+
+            BinaryTreeNode(T data) {
+                this -> data = data;
+                left = NULL;
+                right = NULL;
+                next = NULL;
+            }
+    };
+*/
+
+
+BinaryTreeNode< int > * getNext(BinaryTreeNode< int > * curr){
+    BinaryTreeNode< int > * now = curr->next;
+    while(now!=NULL){
+        if(now->left!=NULL)return now->left;
+        if(now->right!=NULL)return now->right;
+        now = now->next;
+    }
+}
+
+// doing preordr traversal
+void connectNodes(BinaryTreeNode< int > *root) {
+    // Write your code here.
+    if(root == NULL)return ;
+    BinaryTreeNode< int > * curr =root;
+    while(curr!=NULL)
+    {
+        if(curr->left!=NULL){
+            if(curr->right!=NULL)curr->left->next =curr->right;
+            else curr->left->next = getNext(curr);
+        }
+        if(curr->right!=NULL)curr->right->next = getNext(curr);
+        
+        curr = curr->next;
+    }
+    connectNodes(root->left);
+    connectNodes(root->right);
+    
+}
