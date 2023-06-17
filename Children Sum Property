@@ -1,0 +1,51 @@
+#include <bits/stdc++.h> 
+/*************************************************************
+
+    Following is the Binary Tree node structure
+
+    class BinaryTreeNode
+    {
+    public :
+        T data;
+        BinaryTreeNode < T > *left;
+        BinaryTreeNode < T > *right;
+
+        BinaryTreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+*************************************************************/
+bool isLeaf(BinaryTreeNode < int > * root){
+    return root->left== NULL and root->right==NULL;
+}
+
+void changeTree(BinaryTreeNode < int > * root) {
+    // Write your code here.
+    if(root == NULL)return ;
+    
+    int tot = 0 ;
+    if(root->left)tot += root->left->data;
+    if(root->right)tot += root->right->data;
+    int diff = root->data-tot;
+    if(diff>0){
+        if(root->left){
+            root->left->data += diff;
+        }
+        else if(root->right){
+            root->right->data += diff;
+        }
+    }
+    changeTree(root->left);
+    changeTree(root->right);
+    
+    tot = 0;
+    if(root->left)tot+= root->left->data;
+    if(root->right)tot+= root->right->data;
+    if(isLeaf(root) == false){
+        root->data = tot;
+    }
+    
+}  
