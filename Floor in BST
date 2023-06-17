@@ -1,0 +1,39 @@
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T val;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T val) {
+            this->val = val;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+
+int floorInBST(TreeNode<int> * root, int key)
+{
+     TreeNode<int> * predeccor = NULL;
+     TreeNode<int> *curr = root;
+    int ans = -1;
+    while(curr!=NULL){
+        if(curr->val == key){
+            return curr->val;
+        }
+        else if(curr->val < key){
+            ans = curr->val;
+            curr= curr->right;
+        }
+        else{
+            curr = curr->left;
+        }
+    }
+    return ans;
+}
