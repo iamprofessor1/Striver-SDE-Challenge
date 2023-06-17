@@ -1,0 +1,25 @@
+#include<bits/stdc++.h>
+
+int lcs(string s, string t)
+{
+    //Write your code here
+    
+    vector<int> prev(t.size() , 0), curr(t.size(), 0);
+    
+    for(int i=0; i<t.size(); i++){
+        if(s[0] == t[i]) prev[i] = 1;
+    }
+    for(int i=1; i<s.size(); i++){
+        for(int j=1; j<t.size(); j++){
+            int pick = INT_MIN;
+            if(s[i] == t[j]){
+                pick = 1 + prev[j-1];
+            }
+            int up = prev[j];
+            int left = curr[j-1];
+            curr[j] = max(pick, max(left, up));
+        }
+        prev = curr;
+    }
+    return prev[t.size()-1];
+}
