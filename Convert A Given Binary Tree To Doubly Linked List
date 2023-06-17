@@ -1,0 +1,48 @@
+/*************************************************************
+ 
+    Following is the Binary Tree node structure
+
+    class BinaryTreeNode 
+    {
+    public : 
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+*************************************************************/
+
+BinaryTreeNode<int>*  convertor(BinaryTreeNode<int>* root,BinaryTreeNode<int>* &head,BinaryTreeNode<int>* &prev ){
+    if(root == NULL){
+        return root;
+    }
+     convertor(root->left,head,prev);
+//     setting of first node of DLL
+    if(head == NULL){
+        head = root;
+    }
+    else{
+        root->left = prev;
+        prev->right = root;
+    }
+    prev = root;
+    convertor(root->right,head,prev);
+    return head;
+}
+
+BinaryTreeNode<int>* BTtoDLL(BinaryTreeNode<int>* root) {
+    // Write your code here
+    if(root == NULL){
+        return root;
+    }
+    BinaryTreeNode<int>*  head = NULL;
+    BinaryTreeNode<int>* prev = NULL;
+    
+    return convertor(root,head,prev);
+}
