@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+
+void cGraph(unordered_map<int,list<int>>&adj1,unordered_map<int,list<int>>&adj2,vector<vector<int>> &edges,vector<int>&indegree){
+    for(int i = 0 ; i<edges.size();i++){
+        int u = edges[i][0];
+        int v = edges[i][1];
+        adj1[u].push_back(v);
+        indegree[v]++;
+        adj2[v].push_back(u);
+    }
+}
+
+
+void bfs(int i , unordered_map<int,list<int>>&adj,vector<int>&visited,vector<int>&ans){
+    queue<int>q;
+    q.push(i);
+    visited[i] = true;
+    while(q.empty() == false){
+        int curr =q.front();
+        q.pop();
+        ans.push_back(curr);
+        for(auto child : adj[curr]){
+            if(visited[child] == false ){
+                q.push(child);
+                visited[child] = true;
+            }
+        }
+    }
+}
+
+
+vector<vector<int>> stronglyConnectedComponents(int n, vector<vector<int>> &edges)
+{
+    // Write your code here.
+    vector<vector<int>>ans;
+    unordered_map<int,list<int>>adj1,adj2;
+    vector<int>indegree(n,0);
+    cGraph(adj1,adj2,edges,indegree);
+    queue<int>q;
+    for(int i = 0 ; i<n ;i++){
+        if(indegree[i] == 0){
+            q.push(i);
+        }
+    }
+    vector<int>topo;
+    cout<<n<<" ";
+    while(q.empty() == false){
+        int curr =q.front();
+        topo.push_back(curr);
+        q.pop();
+        for(auto child : adj1[curr]){
+            indegree[child]--;
+            if(indegree[child] == 0)q.push(child);
+        }
+        
+    }
+    vector<int>visited(n,0);
+    for(int i = 0 ;i<topo.size();i++){
+        if(visited[topo[i]] == false ){
+            vector<int>temp;
+            bfs(topo[i],adj2,visited,temp);
+            ans.push_back(temp);
+        }
+    }
+    
+    return ans;
+}
