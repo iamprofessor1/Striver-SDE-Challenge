@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+
+void converter(vector<int> adj[] ,vector<vector<int>>& edges ){
+    for(int i = 0 ; i<edges.size() ; i++){
+        int u = edges[i][0];
+        int v = edges[i][1];
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+}
+
+bool bfs(vector<int>adj[] , vector<bool> & visited,int src){
+    queue<pair<int,int>>q;
+    q.push({src,-1});
+    visited[src] = true;
+    while(q.empty() == false){
+        int curr = q.front().first;
+        int parent = q.front().second;
+        q.pop();
+        for(auto x : adj[curr]){
+            if(visited[x] == false){
+                visited[x] =true;
+                q.push({x,curr});
+            }
+            else if(visited[x] == true and x!= parent){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool dfs(vector<int>adj[] ,  vector<bool> & visited , int src , int parent){
+    visited[src] = true;
+    for(auto & x : adj[src]){
+        if(visited[x] == false){
+            if(dfs(adj,visited,x,src)){
+                return true;
+            }
+        }
+       else if(visited[x] == true and x!= parent){
+            return true;
+        }
+    }
+    return false;
+}
+
+string cycleDetection (vector<vector<int>>& edges, int n, int m)
+{
+    // Write your code here.
+    vector<int> adj[n+1];
+    converter(adj,edges);
+//     using bfs
+    vector<bool>visited(n+1,false);
+    for(int i = 1 ; i<= n ;i++){
+        if(visited[i] == false){
+//             if(bfs(adj,visited,i)){
+//                 return "Yes";
+//             }
+            if(dfs(adj,visited,i,-1)){
+                return "Yes";
+            }
+                
+        }
+    }
+    return "No";
+}
