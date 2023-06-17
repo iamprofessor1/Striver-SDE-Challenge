@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+
+int dx[] = {0,0,1,-1,1,-1,-1,1};
+int dy[]= {1,-1,0,0,1,-1,1,-1};
+
+void bfs(int **arr , int i , int j , int n , int m){
+    queue<pair<int,int>>q;
+    q.push({i,j});
+    arr[i][j] =0;
+    while(q.empty() == false){
+        auto p = q.front();
+        q.pop();
+        for(int i = 0 ;i<8;i++){
+            int x = p.first+dx[i];
+            int y = p.second+dy[i];
+            if((x>=0 and x<=n-1) and (y>=0 and y<= m-1) and (arr[x][y] == 1)){
+                q.push({x,y});
+                arr[x][y] = 0;
+            }
+        }
+    }
+}
+
+void dfs(int ** arr , int i, int j ,int n , int m ){
+    if(i<0 || i>=n || j<0 || j>= m || arr[i][j] == 0){
+        return;
+    }
+    arr[i][j] = 0;
+    for(int k = 0 ; k<8;k++){
+        int x = i+dx[k];
+        int y = j+dy[k];
+
+            dfs(arr,x,y,n,m);
+     
+    }
+}
+
+int getTotalIslands(int** arr, int n, int m)
+{
+    int cnt = 0;
+   for(int i = 0 ; i<n;i++){
+       for(int j = 0 ; j<m ;j++){
+           if(arr[i][j] == 1)
+           {
+               cnt++;
+//                bfs(arr,i,j,n,m);
+               dfs(arr,i,j,n,m);
+           }
+       }
+   }
+    return cnt;
+}
