@@ -1,0 +1,26 @@
+#include<bits/stdc++.h>
+void dfs(int i , int j , int& initial_col , int& final_col ,vector<vector<int>> &image ){
+    
+    int n = image.size();
+    int m = image[0].size();
+    if(i<0 || j<0) return ;
+    if(i>= n || j>= m)return ;
+    if(image[i][j] != initial_col)return ;
+    
+    image[i][j] = final_col;
+    
+    dfs(i-1,j ,initial_col,final_col,image);
+    dfs(i+1,j ,initial_col,final_col,image);
+    dfs(i,j-1 ,initial_col,final_col,image);
+    dfs(i,j+1 ,initial_col,final_col,image);
+    
+}
+
+vector<vector<int>> floodFill(vector<vector<int>> &image, int x, int y, int newColor)
+{
+    // Write your code here.
+    int initial_col = image[x][y];
+    if(initial_col != newColor)
+    dfs(x,y,initial_col,newColor,image);
+    return image;
+}
