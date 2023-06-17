@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+void convertor(unordered_map<int,list<int>>&adj,vector<pair<int,int>>&edges){
+    for(int i = 0 ;i<edges.size();i++){
+        int u = edges[i].first;
+        int v = edges[i].second;
+        adj[u].push_back(v);
+//         adj[v].push_back(u);
+    }
+//     for(auto&x : adj){
+//         x.second.sort();
+//     }
+}
+
+int detectCycleInDirectedGraph(int n, vector < pair < int, int >> & edges) {
+  // Write your code here.
+    unordered_map<int,list<int>> adj;
+   convertor(adj, edges);
+    int V = n;
+    vector<int>indegree(V+1,0);
+//    for(auto x : adj){
+//        for(auto y : x.second){
+//            indegree[y]++;
+//        }
+//    }
+    for(auto x : edges){
+        indegree[x.second]++;
+    }
+    queue<int>q;
+    int cnt = 0;
+    for(int i = 1; i<=n ;i++){
+        if(indegree[i] == 0){
+            q.push(i);
+        }
+    }
+    while(!q.empty()){
+        int curr= q.front();
+        q.pop();
+        cnt++;
+        for(auto x : adj[curr]){
+            indegree[x]--;
+            if(indegree[x] == 0){
+                q.push(x);
+            }
+        }
+    }
+    return cnt!=V;
+}
