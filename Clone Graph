@@ -1,0 +1,62 @@
+/***************************************************************************
+
+	Class for graph node is as follows:
+
+	class graphNode
+	{
+		public:
+    		int data;
+    	vector<graphNode *> neighbours;
+    	graphNode()
+    	{
+        	data = 0;
+        	neighbours = vector<graphNode *>();
+    	}
+
+    	graphNode(int val)
+    	{
+        	data = val;
+        	neighbours = vector<graphNode *>();
+    	}
+
+    	graphNode(int val, vector<graphNode *> neighbours)
+    	{
+        	data = val;
+        	this->neighbours = neighbours;
+    	}
+	};
+
+******************************************************************************/
+
+graphNode *cloneGraph(graphNode *node)
+{
+//     using bfs
+    if(node == NULL){
+        return NULL;
+    }
+    
+    queue<graphNode * > q;
+    unordered_map<graphNode * , graphNode *>mypair;
+//     ek uska aur ek naaye ka 
+    graphNode * copy = new graphNode (node->data);
+    q.push(node);
+    mypair[node] = copy;
+    while(q.empty() == false){
+        graphNode * curr = q.front();
+        q.pop();
+        for(auto x : curr->neighbours){
+//             means already visited
+            if(mypair.find(x)!=mypair.end()){
+                mypair[curr]->neighbours.push_back(mypair[x]);
+            }
+            else{
+                graphNode * newcopy = new graphNode (x->data);
+                mypair[x] = newcopy;
+                mypair[curr]->neighbours.push_back(newcopy);
+                q.push(x);
+            }
+        }
+    }
+    return mypair[node];
+    
+}
